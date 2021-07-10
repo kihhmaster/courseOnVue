@@ -7,10 +7,10 @@
 			={{ result }}
 		</div>
 		<div>
-			<button @click="add">+</button>
-			<button v-on:click="substract">-</button>
-			<button @click="multiply">*</button>
-			<button  @click="divide">/</button>
+			<button @click="calculate = ('+')">+</button>
+			<button v-on:click="calculate = ('-')">-</button>
+			<button @click="calculate = ('*')">*</button>
+			<button  @click="calculate = ('/')">/</button>
 			<button class="step"  @click="result = Math.pow(operand1, operand2)">степень</button>
 			<button class="step"  @click="result = parseInt(operand1/operand2)">Целочисленное деление</button>
 			<button @click="eventFv">Event</button>
@@ -33,8 +33,27 @@ export default {
 	}),
 	methods: {
 
-		eventFv() {
-			console.log(arguments)
+		// eventFv() {
+		// 	console.log(arguments)
+		// },
+		calculate(operation = "+") {
+			switch(operation) {
+				case "+":
+					this.add()
+					break;
+				case "-":
+					this.substract()
+					break;
+				case "*":
+					this.multiply()
+					break;
+				case "/":
+					this.divide()
+					break;
+				
+
+			}
+
 		},
 		add() {
 			this.result = this.operand1 + this.operand2 
