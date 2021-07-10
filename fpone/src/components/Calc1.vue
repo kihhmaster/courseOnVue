@@ -4,19 +4,19 @@
 		<div>
 			<input type="number" placeholder="op1" v-model.number="operand1">
 			<input placeholder="op2" v-model.number.lazy="operand2"/>
-			={{ sum }}
+			={{ result }}
 		</div>
 		<div>
-			<button @click="sum = operand1+operand2">+</button>
-			<button v-on:click="sum = operand1-operand2">-</button>
-			<button @click="sum = operand1 * operand2">*</button>
-			<button  @click="div">/</button>
-			<button class="step"  @click="sum = Math.pow(operand1, operand2)">степень</button>
-			<button class="step"  @click="sum = parseInt(operand1/operand2)">Целочисленное деление</button>
+			<button @click="add">+</button>
+			<button v-on:click="substract">-</button>
+			<button @click="multiply">*</button>
+			<button  @click="divide">/</button>
+			<button class="step"  @click="result = Math.pow(operand1, operand2)">степень</button>
+			<button class="step"  @click="result = parseInt(operand1/operand2)">Целочисленное деление</button>
 			<button @click="eventFv">Event</button>
 		</div>
 
-		result: {{ sum }}
+		result: {{ result }}
 		<!-- <div v-on:mouseover=""></div> -->
 
 	</div>
@@ -28,7 +28,7 @@ export default {
 	data: () => ({
 		operand1: 0,
 		operand2: 0,
-		sum: 0
+		result: 0
 
 	}),
 	methods: {
@@ -36,8 +36,22 @@ export default {
 		eventFv() {
 			console.log(arguments)
 		},
-		div(){
-			this.sum = this.operand1 / this.operand2
+		add() {
+			this.result = this.operand1 + this.operand2 
+		},
+		substract() {
+			this.result = this.operand1 - this.operand2 
+		},
+		multiply() {
+			this.result = this.operand1 * this.operand2 
+		},
+		divide(){
+			if(this.operand2 > 0) {
+				this.result = this.operand1 / this.operand2
+			}else {
+				alert('Деление на 0 запрещено!!!')
+			}
+			
 		}
 	},
 }
