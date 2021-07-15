@@ -5,7 +5,6 @@
     <HelloWorld 
 		:msg="massage" 
 		:myArr="arr"/>
-		Text : {{ massage }}  длина {{ massage.length }} 
   </div>
 </template>
 

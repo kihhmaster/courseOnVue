@@ -1,7 +1,7 @@
 <template>
   <div class="hello">
-    <h1>{{ msg }}</h1>
-    <div>{{ myArr }}</div>
+    <h1></h1>
+    <div></div>
   </div>
 </template>
 
