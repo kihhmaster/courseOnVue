@@ -1,16 +1,14 @@
 <template>
 
-	<div>
+	<div class="wrapp-input">
 		<div class="wrapp-add__data" v-if="show == false">
 			<input class="input-add__data" v-model="date" placeholder="Date"/>
 			<input class="input-add__data" v-model="category" placeholder="Category"/>
 			<input class="input-add__data" v-model="value" type="number" placeholder="Value"/>
 
 			<button class="button-add__data" @click="onclick">Add Data +</button>
-		
-
-	</div>
-	<button class="button-add__data" id="button-addData__show" @click="addDataShow()">Add new Cost +</button>
+		</div>
+	<button  id="button-addData__show" @click="addDataShow()">Add new Cost +</button>
 	</div>
 </template>
 <script>
@@ -30,11 +28,14 @@ export default {
 				this.show = false
 				const buttonShow = document.querySelector('#button-addData__show')
 				buttonShow.style.background = "#35495e"
-				buttonShow.style.width = "60px"
-				buttonShow.innerText = "Close"
+				buttonShow.style.width = "30px"
+				buttonShow.innerText = "X"
 				
 			}else  {
 				this.show = true
+				this.date = ""
+				this.category = ""
+				this.value = null
 				const buttonShow = document.querySelector('#button-addData__show')
 				buttonShow.style.width = "150px"
 				buttonShow.style.background = "cadetblue"
@@ -84,6 +85,21 @@ export default {
 	height: 30px;
 	width: 150px;
 	align-self: flex-end;
+	margin: 5px;
+	background: cadetblue;
+	border: none;
+	border-radius: 5px;
+	color: #fff;
+}
+.wrapp-input {
+	display: flex;
+	justify-content: center;
+	align-items: center;
+}
+#button-addData__show {
+	height: 30px;
+	width: 150px;
+	align-self: flex-start;
 	margin: 5px;
 	background: cadetblue;
 	border: none;
