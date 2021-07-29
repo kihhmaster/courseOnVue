@@ -4,21 +4,26 @@
       <h1>My personal cost</h1>
     </header>
     <div class="menu">
-      <a href="#dashboard">Dashboard / </a>
-      <a href="#about">About / </a>
-      <a href="#notFound">Not Found / </a>
+			<router-link to="/dashboard">Dashboard </router-link>/
+			<router-link to="/about">About </router-link>/
+			<router-link to="/notfound">Not Found </router-link>/
+      <!-- <a href="dashboard">Dashboard / </a>
+      <a href="about">About / </a>
+      <a href="notFound">Not Found / </a> -->
     </div>
     <main>
 			<div class="content-page">
-				<About v-if="page === 'about'"/>
+				<router-view/>
+				<!-- <About v-if="page === 'about'"/>
 				<Dashboard v-if="page === 'dashboard'"/>
-				<NotFound v-if="page === 'notFound'"/>
+				<NotFound v-if="page === 'notFound'"/> -->
 			</div>
-      <Pagination />
+
       <AddPayment @addNewPayment="addData" />
       Total: {{ getFPV }}
       <CategorySelect :category="category" />
-      <PaymentsDisplay :list="paymentsList" />
+      <PaymentsDisplay :list="carrentElements" />
+			<Pagination :cur="curPage" :n="n" :length="paymentsList.length" @paginate="onChangePage"/>
     </main>
   </div>
 </template>
@@ -28,9 +33,9 @@ import PaymentsDisplay from "./components/PaymentsDisplay.vue";
 import CategorySelect from "./components/CategorySelect.vue";
 import Pagination from "./components/pagination.vue";
 
-import About from "./views/About.vue";
-import Dashboard from "./views/Dashboard.vue";
-import NotFound from "./views/NotFound.vue";
+// import About from "./views/About.vue";
+// import Dashboard from "./views/Dashboard.vue";
+// import NotFound from "./views/NotFound.vue";
 
 import AddPayment from "./components/AddPayment.vue";
 import { mapMutations, mapGetters, mapActions } from "vuex";
@@ -43,13 +48,15 @@ export default {
     AddPayment,
     CategorySelect,
     Pagination,
-		About,
-		Dashboard,
-		NotFound,
+		// About,
+		// Dashboard,
+		// NotFound,
   },
 	data() {
 		return {
-			page: ''
+			page: '',
+			curPage: 1,
+			n: 10,
 		}
 	},
   methods: {
@@ -60,15 +67,26 @@ export default {
       // this.paymentsList = [...this.paymentsList, data]
       this.addDataToPaymentsList(data);
     },
-		setPage() {
-			this.page = location.hash.slice(1)
-		},
+		onChangePage(p){
+			this.curPage = p
+		}
+		// setPage() {
+		// 	//Реализацыя через hash
+		// 	this.page = location.hash.slice(1)
+		// 	//Нативная реализация через vue
+		// 	this.page = location.pathname.slice(1)
+
+		// },
   },
   computed: {
     ...mapGetters({
       paymentsList: "getPaymentList",
       category: "getCategoryList",
     }),
+		carrentElements(){
+			const { n, curPage} = this
+			return this.paymentsList.slice(n * (curPage -1), n* (curPage - 1) +n)
+		},
     getFPV() {
       return this.$store.getters.getFullPaymentValue;
     },
@@ -90,10 +108,22 @@ export default {
     }
   },
 	mounted() {
-		this.setPage()
-		window.addEventListener('hashchange', ()=>{
-			this.setPage()
-		})
+		//Реализацыя через hash
+		//* this.setPage()
+		// window.addEventListener('hashchange', ()=>{
+		// 	this.setPage()
+		// })
+		//Нативная реализация через vue
+		// this.setPage()
+		// const links = document.querySelectorAll('a')
+		// links.forEach(link => {
+		// 	link.addEventListener('click', event=>{
+		// 		event.preventDefault()
+		// 		history.pushState({}, "", link.href)
+		// 		this.setPage()
+		// 	})
+		// })
+		// window.addEventListener('popstate', this.setPage)
 	},
 };
 </script>
