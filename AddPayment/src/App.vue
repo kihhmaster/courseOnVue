@@ -5,30 +5,46 @@
     </header>
 		
     <main>
+			<Pagination />
 			<AddPayment @addNewPayment="addData"/>
+			Total: {{ getFPV }}
+			<CategorySelect :category="category" />
       <PaymentsDisplay :list="paymentsList" />
+      
     </main>
   </div>
 </template>
 
 <script>
 import PaymentsDisplay from "./components/PaymentsDisplay.vue";
+import CategorySelect from "./components/CategorySelect.vue";
+import Pagination from "./components/pagination.vue";
 import AddPayment from "./components/AddPayment.vue";
+import { mapMutations, mapGetters, mapActions} from "vuex";
 
 export default {
   name: "App",
   components: {
     PaymentsDisplay,
 		AddPayment,
+		CategorySelect,
+		Pagination
   },
-  data: () => ({
-    paymentsList: [1, 2, 3, 4, 5, 6, 7, 8, 9],
-  }),
   methods: {
+		...mapMutations([
+			'setPaymentListData',
+			'addDataToPaymentsList'
+		]),
+		...mapActions([
+			'fetchData',
+			'fetchCategory'
+		]),
 		addData (data){
-			this.paymentsList.push(data)
+			// this.paymentsList.push(data)
+			// this.paymentsList = [...this.paymentsList, data]
+			this.addDataToPaymentsList(data)
 		},
-    fetchData() {
+    /*fetchData() {
       return [
         {
           date: "28.03.2020",
@@ -51,10 +67,34 @@ export default {
           value: 9000,
         },
       ];
-    },
+    },*/
+
   },
+	computed: {
+		...mapGetters({
+			paymentsList: 'getPaymentList',
+			category: 'getCategoryList'
+		}),
+		getFPV() {
+			return this.$store.getters.getFullPaymentValue
+		},
+		// paymentsList() {
+		// 	return this.$store.getters.getPaymentList
+		// }
+	},
 	created() {
-		this.paymentsList = this.fetchData()
+		// this.$store.commit('setPaymentListData', this.fetchData())
+		//можно и так , только после спред оператора строка 29
+		// this.setPaymentListData(this.fetchData()) 
+		// this.paymentsList = this.fetchData()
+		//имитация сервера
+		this.$store.dispatch('fetchData')
+		//Подмешиваем метод строка 32
+		this.fetchData()
+		if(!this.category.length) {
+			this.fetchCategory()
+		}
+		
 	},
 };
 </script>

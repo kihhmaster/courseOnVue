@@ -4,7 +4,7 @@
 		<div class="wrapp-add__data" v-if="show == false">
 			<input class="input-add__data" v-model="date" placeholder="Date"/>
 			<input class="input-add__data" v-model="category" placeholder="Category"/>
-			<input class="input-add__data" v-model="value" type="number" placeholder="Value"/>
+			<input class="input-add__data" v-model.number="value" type="number" placeholder="Value"/>
 
 			<button class="button-add__data" @click="onclick">Add Data +</button>
 		</div>
@@ -70,7 +70,7 @@ export default {
 	width: 100%;
 	max-width: 300px;
 	display: flex;
-	justify-content: start;
+	justify-content: flex-start;
 	flex-direction: column;
 }
 .input-add__data {
