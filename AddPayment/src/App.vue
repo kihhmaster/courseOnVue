@@ -5,11 +5,12 @@
     </header>
 		
     <main>
-			<Pagination />
 			<AddPayment @addNewPayment="addData"/>
 			Total: {{ getFPV }}
 			<CategorySelect :category="category" />
-      <PaymentsDisplay :list="paymentsList" />
+      <PaymentsDisplay :list="carrentElements" />
+			<Pagination :cur="curPage" :n="n" :length="paymentsList.length" @paginate="onChangePage"/>
+
       
     </main>
   </div>
@@ -28,8 +29,15 @@ export default {
     PaymentsDisplay,
 		AddPayment,
 		CategorySelect,
-		Pagination
+		Pagination,
   },
+	data() {
+		return {
+			page: '',
+			curPage: 1,
+			n: 10,
+		}
+	},
   methods: {
 		...mapMutations([
 			'setPaymentListData',
@@ -44,30 +52,10 @@ export default {
 			// this.paymentsList = [...this.paymentsList, data]
 			this.addDataToPaymentsList(data)
 		},
-    /*fetchData() {
-      return [
-        {
-          date: "28.03.2020",
-          category: "Food",
-          value: 169,
-        },
-        {
-          date: "28.03.2020",
-          category: "Sport",
-          value: 1690,
-        },
-        {
-          date: "28.03.2020",
-          category: "Car",
-          value: 900,
-        },
-        {
-          date: "28.03.2020",
-          category: "Family",
-          value: 9000,
-        },
-      ];
-    },*/
+		onChangePage(p){
+			this.curPage = p
+		},
+
 
   },
 	computed: {
@@ -77,6 +65,10 @@ export default {
 		}),
 		getFPV() {
 			return this.$store.getters.getFullPaymentValue
+		},
+		carrentElements(){
+			const { n, curPage} = this
+			return this.paymentsList.slice(n * (curPage -1), n* (curPage - 1) +n)
 		},
 		// paymentsList() {
 		// 	return this.$store.getters.getPaymentList
@@ -95,6 +87,10 @@ export default {
 			this.fetchCategory()
 		}
 		
+	},
+	carrentElements(){
+			const { n, curPage} = this
+			return this.paymentsList.slice(n * (curPage -1), n* (curPage - 1) +n)
 	},
 };
 </script>
