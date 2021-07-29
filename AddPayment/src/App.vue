@@ -108,6 +108,11 @@ export default {
     }
   },
 	mounted() {
+		const page = this.$route.params.page || 1
+
+		this.curPage = Number(page)
+
+		
 		//Реализацыя через hash
 		//* this.setPage()
 		// window.addEventListener('hashchange', ()=>{
@@ -134,7 +139,7 @@ export default {
   flex-direction: column;
 }
 </style>
-<style>
+<style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap");
 #app {
   font-family: "Otomanopee One", sans-serif;
@@ -147,5 +152,12 @@ export default {
   display: flex;
   justify-content: center;
   align-items: center;
+}
+a {
+	text-decoration: none;
+	color: cadetblue;
+	&:hover{
+		color: rgb(137, 172, 173);
+	}
 }
 </style>

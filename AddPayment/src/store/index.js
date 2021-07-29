@@ -38,7 +38,8 @@ export default new Vuex.Store({
 						items.push({
 							date: "23.10.2021",
 							category: "Food",
-							value: i
+							value: i,
+							id: i
 						})
 					}
 					resolve(items)

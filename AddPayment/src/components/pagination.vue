@@ -1,6 +1,6 @@
 <template>
   <div :class="[$style.wrp]">
-    <div @click="onClick(cur - 1)">-</div>
+    <div class="paginat__button" @click="onClick(cur - 1)">-</div>
     <div
       v-for="i in amount" :key="i"
       :class="{
@@ -8,7 +8,7 @@
       }"
       @click="onClick(i)"
     >{{ i }}</div>
-    <div @click="onClick(cur + 1)">+</div>
+    <div class="paginat__button" @click="onClick(cur + 1)">+</div>
   </div>
 </template>
 
@@ -37,12 +37,41 @@ export default {
 
 <style module lang="scss">
 .wrp {
+	margin: 20px;
   display: flex;
+	align-items: center;
+	justify-content: center;
+	
   & > div {
-    padding: 10px;
+		display: flex;
+		align-items: center;
+		justify-content: center;
+		height: 20px;
+		width: 20px;
+		padding: 5px;
+		margin: 5px;
+		align-self: center;
+		&:hover {
+			background: cadetblue;
+		}
+
     &.active {
       background: #ccc;
     }
   }
 }
+</style>
+<style lang="scss">
+.paginat__button {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	border: 1px solid #ccc;
+	height: 20px;
+	width: 20px;
+	&:hover {
+		background: cadetblue;
+	}
+}
+
 </style>

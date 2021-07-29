@@ -7,7 +7,7 @@
 			<div class="list__title">Value</div>
 		</div>
 		<div class="wrapp-list__item" v-for="(item, idx) in list" :key="idx">
-			<div class="list__item">{{ idx + 1 }}</div>
+			<div class="list__item">{{ item.id }}</div>
 			<div class="list__item">{{ item.date}}</div>
 			<div class="list__item">{{ item.category}}</div>
 			<div class="list__item">{{ item.value}}</div>
