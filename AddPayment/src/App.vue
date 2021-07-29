@@ -7,7 +7,6 @@
     <main>
 			<AddPayment @addNewPayment="addData"/>
 			Total: {{ getFPV }}
-			<CategorySelect :category="category" />
       <PaymentsDisplay :list="carrentElements" />
 			<Pagination :cur="curPage" :n="n" :length="paymentsList.length" @paginate="onChangePage"/>
 
@@ -18,7 +17,6 @@
 
 <script>
 import PaymentsDisplay from "./components/PaymentsDisplay.vue";
-import CategorySelect from "./components/CategorySelect.vue";
 import Pagination from "./components/pagination.vue";
 import AddPayment from "./components/AddPayment.vue";
 import { mapMutations, mapGetters, mapActions} from "vuex";
@@ -28,7 +26,6 @@ export default {
   components: {
     PaymentsDisplay,
 		AddPayment,
-		CategorySelect,
 		Pagination,
   },
 	data() {
@@ -45,7 +42,6 @@ export default {
 		]),
 		...mapActions([
 			'fetchData',
-			'fetchCategory'
 		]),
 		addData (data){
 			// this.paymentsList.push(data)
@@ -61,7 +57,6 @@ export default {
 	computed: {
 		...mapGetters({
 			paymentsList: 'getPaymentList',
-			category: 'getCategoryList'
 		}),
 		getFPV() {
 			return this.$store.getters.getFullPaymentValue
@@ -83,9 +78,7 @@ export default {
 		this.$store.dispatch('fetchData')
 		//Подмешиваем метод строка 32
 		this.fetchData()
-		if(!this.category.length) {
-			this.fetchCategory()
-		}
+
 		
 	},
 	carrentElements(){
@@ -116,4 +109,8 @@ export default {
 		justify-content: center;
 		align-items: center;
 	}
+	*{
+		box-sizing: border-box;
+	}
+
 </style>

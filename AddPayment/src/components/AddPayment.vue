@@ -2,8 +2,10 @@
 
 	<div class="wrapp-input">
 		<div class="wrapp-add__data" v-if="show == false">
+
 			<input class="input-add__data" v-model="date" placeholder="Date"/>
-			<input class="input-add__data" v-model="category" placeholder="Category"/>
+			<CategorySelect  :categories="categories"/>
+
 			<input class="input-add__data" v-model.number="value" type="number" placeholder="Value"/>
 
 			<button class="button-add__data" @click="onclick">Add Data +</button>
@@ -12,6 +14,11 @@
 	</div>
 </template>
 <script>
+
+import CategorySelect from "./CategorySelect.vue";
+import { mapGetters, mapActions } from "vuex";
+
+
 export default {
 	name: "AddPayment",
 	data() {
@@ -22,7 +29,13 @@ export default {
 			show: true
 		}
 	},
+	components: {
+		CategorySelect,
+	},
 	methods: {
+		...mapActions([
+			'fetchCategory'
+		]),
 		addDataShow() {
 			if(this.show == true) {
 				this.show = false
@@ -54,6 +67,10 @@ export default {
 		}
 	},
 	computed: {
+		...mapGetters({
+		paymentsList: 'getPaymentList',
+		categories: 'getCategoryList'
+		}),
 		getCurrentDate() {
 			const today = new Date()
 			const d = today.getDate()
@@ -61,7 +78,12 @@ export default {
 			const y =today.getFullYear()
 			return `${d}.${m}.${y}`
 		}
-	}
+	},
+	created() {
+		if(!this.category.length) {
+			this.fetchCategory()
+		}
+	},
 }
 </script>
 
@@ -72,14 +94,24 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
+	&>select{
+		margin-bottom: 10px;
+		height: 32px;
+		border: 1px solid rgb(185, 185, 185);
+		width: 100%;
+		&::placeholder {
+		color: rgb(185, 185, 185);
+		}
+	}
 }
 .input-add__data {
+	margin-bottom: 10px;
 	height: 30px;
 	border: 1px solid rgb(185, 185, 185);
-	margin: 5px;
 	&::placeholder {
 		color: rgb(185, 185, 185);
 	}
+
 }
 .button-add__data {
 	height: 30px;
