@@ -4,7 +4,7 @@
 		<div class="wrapp-add__data" v-if="show == false">
 
 			<input class="input-add__data" v-model="date" placeholder="Date"/>
-			<CategorySelect  :categories="categories"/>
+			<CategorySelect  :categories="categories" v-model="category"/>
 
 			<input class="input-add__data" v-model.number="value" type="number" placeholder="Value"/>
 
