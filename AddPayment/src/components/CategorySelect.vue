@@ -1,17 +1,18 @@
 <template>
-  <div>
-    <select v-model="selected">
-      <option v-for="(option, idx) in category" :key="idx">
-        {{ option }}
-      </option>
-    </select>
-  </div>
+
+<div>
+	<select v-model="selected">
+		<option v-for="(option, idx) in categories" :key="idx">
+			{{ option }}
+		</option>
+	</select>
+</div>
 </template>
 <script>
 export default {
   name: "CategorySelect",
   props: {
-    category: {
+    categories: {
       type: Array,
       default: () => [],
     },
@@ -22,6 +23,20 @@ export default {
 			selected: "",
 		};
 	},
+	computed: {
+
+	},
+	watch: {
+		selected() {
+			const data = {
+				selected: this.selected
+				
+			}
+			this.$emit('addDataSelected', data)
+			// console.log(data)
+		}
+	},
+
 };
 </script>
 <style scoped>

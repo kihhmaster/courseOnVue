@@ -46,9 +46,8 @@ export default {
 		display: flex;
 		align-items: center;
 		justify-content: center;
-		height: 20px;
-		width: 20px;
-		padding: 5px;
+		height: 25px;
+		width: 25px;
 		margin: 5px;
 		align-self: center;
 		&:hover {

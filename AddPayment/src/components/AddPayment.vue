@@ -2,16 +2,22 @@
 
 	<div class="wrapp-input">
 		<div class="wrapp-add__data" v-if="show == false">
-			<input class="input-add__data" v-model="date" placeholder="Date"/>
-			<input class="input-add__data" v-model="category" placeholder="Category"/>
-			<input class="input-add__data" v-model.number="value" type="number" placeholder="Value"/>
 
+			<input type="date" class="input-add__data" v-model="date" placeholder="Date"/>
+			<CategorySelect  @addDataSelected="addDataSelected" :categories="categories"/>
+			<input class="input-add__data" v-model.number="value" type="number" placeholder="Value"/>
 			<button class="button-add__data" @click="onclick">Add Data +</button>
 		</div>
 	<button  id="button-addData__show" @click="addDataShow()">Add new Cost +</button>
 	</div>
 </template>
 <script>
+
+import CategorySelect from "./CategorySelect.vue";
+import { mapGetters, mapActions } from "vuex";
+
+
+
 export default {
 	name: "AddPayment",
 	data() {
@@ -19,10 +25,19 @@ export default {
 			date: "",
 			category: "",
 			value: null,
-			show: true
+			show: true,
 		}
 	},
+	components: {
+		CategorySelect,
+	},
 	methods: {
+		...mapActions([
+			'fetchCategory'
+		]),
+		addDataSelected(data) {
+			this.category =  data.selected
+		},
 		addDataShow() {
 			if(this.show == true) {
 				this.show = false
@@ -47,21 +62,45 @@ export default {
 			const data = {
 				date: this.date || this.getCurrentDate,
 				category,
-				value
+				value,
 			}
 			this.$emit('addNewPayment', data)
 			
 		}
 	},
 	computed: {
+		...mapGetters({
+		paymentsList: 'getPaymentList',
+		categories: 'getCategoryList'
+		}),
 		getCurrentDate() {
 			const today = new Date()
 			const d = today.getDate()
 			const m = today.getMonth()+1
 			const y =today.getFullYear()
 			return `${d}.${m}.${y}`
+		},
+
+		getValuetQueryFromRoute(){
+			return Number(this.$route.query?.value) ?? null
+		},
+		getCategoryParamsFromRoute() {
+			return this.$route.params?.category ?? null
 		}
-	}
+	},
+	created() {
+		if(!this.category.length) {
+			this.fetchCategory()
+		}
+		if((!this.getValueQueryFromRoute || !this.getCategoryParamsFromRoute) && this.$route.name !== 'dashboard') {
+				this.$router.push({
+					name: 'dashboard'
+				})
+		}
+		this.category = this.getCategoryParamsFromRoute
+		this.value = this.getValuetQueryFromRoute
+
+	},
 }
 </script>
 
@@ -72,14 +111,24 @@ export default {
 	display: flex;
 	justify-content: flex-start;
 	flex-direction: column;
+	&>div>select{
+		margin-bottom: 10px;
+		height: 32px;
+		border: 1px solid rgb(185, 185, 185);
+		width: 100%;
+		&::placeholder {
+		color: rgb(185, 185, 185);
+		}
+	}
 }
 .input-add__data {
+	margin-bottom: 10px;
 	height: 30px;
 	border: 1px solid rgb(185, 185, 185);
-	margin: 5px;
 	&::placeholder {
 		color: rgb(185, 185, 185);
 	}
+
 }
 .button-add__data {
 	height: 30px;

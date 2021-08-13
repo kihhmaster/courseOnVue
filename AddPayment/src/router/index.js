@@ -4,12 +4,17 @@ import Router from 'vue-router'
 import Dashboard from '../views/Dashboard'
 import About from '../views/About'
 import NotFound from '../views/NotFound'
-
+import AddPayment from '../components/AddPayment'
 Vue.use(Router)
 
 const router = new Router({
 	mode: 'history',
 	routes: [
+		{
+			path: '/add/payment/:category/',
+			component: AddPayment,
+			name: 'addpayment'
+		},
 		{
 			path: '/dashboard',
 			component: Dashboard,
@@ -20,16 +25,7 @@ const router = new Router({
 			component: Dashboard,
 			name: 'dashboard'
 		},
-		{
-			path: '/',
-			component: Dashboard,
-			name: 'dashboard'
-		},
-		{
-			path: '/about',
-			component: About,
-			name: 'about'
-		},
+
 		{
 			path: '/about*',
 			component: About,
@@ -41,7 +37,7 @@ const router = new Router({
 			name: 'notfound'
 		},
 		{
-			path: '/*',
+			path: '*',
 			component: NotFound,
 			name: 'notfound'
 		}
