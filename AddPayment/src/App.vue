@@ -4,35 +4,55 @@
       <h1>My personal cost</h1>
     </header>
     <div class="menu">
-			<router-link to="/dashboard">Dashboard </router-link>/
-			<router-link to="/about">About </router-link>/
-			<router-link to="/notfound">Not Found </router-link>/
-      <!-- <a href="dashboard">Dashboard / </a>
-      <a href="about">About / </a>
-      <a href="notFound">Not Found / </a> -->
+      <router-link to="/dashboard">Dashboard </router-link>/
+      <router-link to="/about">About </router-link>/
+      <router-link to="/notfound">Not Found </router-link>/
     </div>
     <main>
-			<div class="content-page">
-				<router-view/>
-				<!-- <About v-if="page === 'about'"/>
-				<Dashboard v-if="page === 'dashboard'"/>
-				<NotFound v-if="page === 'notFound'"/> -->
-			</div>
-
-
+      <div class="content-page">
+        <router-view />
+        <transition name='fade'>
+          <ModalWindow v-if="modalSetings.name" :settings="modalSetings" />
+        </transition>
+      </div>
     </main>
   </div>
 </template>
 
 <script>
-
-// import About from "./views/About.vue";
-// import Dashboard from "./views/Dashboard.vue";
-// import NotFound from "./views/NotFound.vue";
-
+// import ModalWindow from '@/components/ModalWindow.vue';
 
 export default {
-  name: "App",	
+  name: "App",
+  components: {
+    ModalWindow: () =>
+      import(
+        /*webpackChunkName: 'ModalWindow'*/ "@/components/ModalWindow.vue"
+      ),
+  },
+  data() {
+    return {
+      modalShow: false,
+      modalSetings: {},
+    };
+  },
+  mounted() {
+    this.$modal.EventBus.$on("show", this.onShow);
+    this.$modal.EventBus.$on("hide", this.onHide);
+  },
+  beforeDestroy() {
+    this.$modal.EventBus.$off("show", this.onShow);
+    this.$modal.EventBus.$off("hide", this.onHide);
+  },
+  methods: {
+    onShow(settings) {
+      this.modalSetings = settings;
+      console.log(settings);
+    },
+    onHide() {
+      this.modalSetings = {};
+    },
+  },
 };
 </script>
 
@@ -41,6 +61,7 @@ export default {
   display: flex;
   flex-direction: column;
 }
+
 </style>
 <style lang="scss">
 @import url("https://fonts.googleapis.com/css2?family=Otomanopee+One&display=swap");
@@ -57,13 +78,19 @@ export default {
   align-items: center;
 }
 a {
-	text-decoration: none;
-	color: cadetblue;
-	&:hover{
-		color: rgb(137, 172, 173);
-	}
+  text-decoration: none;
+  color: cadetblue;
+  &:hover {
+    color: rgb(137, 172, 173);
+  }
 }
-*{
-	box-sizing: border-box;
+* {
+  box-sizing: border-box;
+}
+.fade-enter-active, .fade-leave-active {
+  transition: opacity 1s;
+}
+.fade-enter, .fade-leave-to {
+  opacity: 0;
 }
 </style>

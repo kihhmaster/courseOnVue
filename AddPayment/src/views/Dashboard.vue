@@ -9,6 +9,8 @@
       :length="paymentsList.length"
       @paginate="onChangePage"
     />
+		<button @click="showPaymentsForm" > Show Payments Form</button>
+		<button @click="closePaymentsForm" > close </button>
   </div>
 </template>
 
@@ -25,15 +27,14 @@ export default {
     PaymentsDisplay,
     AddPayment,
     Pagination,
-		// About,
-		// Dashboard,
-		// NotFound,
-  },
+		},
 	data() {
 		return {
 			page: '',
+			addFormShow: false,
 			curPage: 1,
 			n: 10,
+			
 		}
 	},
   methods: {
@@ -44,6 +45,15 @@ export default {
       // this.paymentsList = [...this.paymentsList, data]
       this.addDataToPaymentsList(data);
     },
+		onClose() {
+			this.addFormShow = false
+		},
+		showPaymentsForm(){
+			this.$modal.show('AddPayment', {header: "Add"})
+		},
+		closePaymentsForm() {
+			this.$modal.hide()
+		},
 		onChangePage(p){
 			this.curPage = p
 		}
