@@ -9,8 +9,7 @@
       :length="paymentsList.length"
       @paginate="onChangePage"
     />
-		<button @click="showPaymentsForm" > Show Payments Form</button>
-		<button @click="closePaymentsForm" > close </button>
+
   </div>
 </template>
 
@@ -47,12 +46,6 @@ export default {
     },
 		onClose() {
 			this.addFormShow = false
-		},
-		showPaymentsForm(){
-			this.$modal.show('AddPayment', {header: "Add"})
-		},
-		closePaymentsForm() {
-			this.$modal.hide()
 		},
 		onChangePage(p){
 			this.curPage = p

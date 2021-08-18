@@ -1,6 +1,6 @@
 <template>
   <div class="wrapp-input">
-    <div class="wrapp-add__data" v-if="show == false">
+    <div class="wrapp-add__data" >
       <input
         type="date"
         class="input-add__data"
@@ -17,11 +17,11 @@
         type="number"
         placeholder="Value"
       />
-      <button class="button-add__data" @click="onclick">Add Data +</button>
+      <button class="button-add__data" @click="onclick">Edit Data +</button>
     </div>
-    <button class="button-addData__show" @click="addDataShow()">
+    <!-- <button class="button-addData__show" @click="addDataShow()">
       Add new Cost +
-    </button>
+    </button> -->
   </div>
 </template>
 <script>
@@ -29,7 +29,7 @@ import CategorySelect from "./CategorySelect.vue";
 import { mapGetters, mapActions } from "vuex";
 
 export default {
-  name: "AddPayment",
+  name: "EditPayment",
   data() {
     return {
       date: "",
@@ -51,24 +51,24 @@ export default {
     addDataSelected(data) {
       this.category = data.selected;
     },
-    addDataShow() {
-			const buttonShow = document.querySelector(".button-addData__show");
-			console.log(buttonShow)
-      if (this.show == true) {
-        this.show = false;
-        buttonShow.style.background = "#35495e";
-        buttonShow.style.width = "30px";
-        buttonShow.innerText = "X";
-      } else {
-        this.show = true;
-        this.date = "";
-        this.category = "";
-        this.value = null;
-        buttonShow.style.width = "150px";
-        buttonShow.style.background = "cadetblue";
-        buttonShow.innerText = "Add new Cost +";
-      }
-    },
+    // addDataShow() {
+		// 	const buttonShow = document.querySelector(".button-addData__show");
+		// 	console.log(buttonShow)
+    //   if (this.show == true) {
+    //     this.show = false;
+    //     buttonShow.style.background = "#35495e";
+    //     buttonShow.style.width = "30px";
+    //     buttonShow.innerText = "X";
+    //   } else {
+    //     this.show = true;
+    //     this.date = "";
+    //     this.category = "";
+    //     this.value = null;
+    //     buttonShow.style.width = "150px";
+    //     buttonShow.style.background = "cadetblue";
+    //     buttonShow.innerText = "Add new Cost +";
+    //   }
+    // },
     onclick() {
       const { category, value } = this;
       const data = {
@@ -83,11 +83,6 @@ export default {
       }
       this.$emit("addNewPayment", data);
     },
-		// onValuePayment() {
-		// 	const { category, value, date} = this;
-
-		// 	console.log(category, value, date)
-		// }
   },
   computed: {
     ...mapGetters({

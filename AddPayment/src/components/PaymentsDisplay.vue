@@ -11,7 +11,14 @@
 			<div class="list__item">{{ item.date}}</div>
 			<div class="list__item">{{ item.category}}</div>
 			<div class="list__item">{{ item.value}}</div>
+	
+			<button class="list__button" @click="showModalMenu">
+				<p>.</p>
+				<p>.</p>
+				<p>.</p>
+			</button>
 		</div>
+
 	</div>
 </template>
 
@@ -24,21 +31,29 @@ export default {
 			default: ()=>[]
 		}
 	},
+
 	data() {
 		return {
 			
 		}
-	}
+	},
+	methods: {
+		showModalMenu() {
+			this.$modal.show("ModalMenuPaymentsList", {header: "Menu item"})
+		}
+	},
 }
 </script>
 
 
 <style lang="scss" scoped>
 .payments-list {
+	position: relative;
 	width: 100%;
 	max-width: 600px;
 }
 .wrapp-list__item {
+	position: relative;
 	display: flex;
 	justify-content: flex-start;
 	align-items: flex-start;
@@ -68,6 +83,24 @@ export default {
 .list__item {
 	width: 150px;
 	margin: 10px;
+
+}
+.list__button {
+	align-self: center;
+	display: flex;
+	font-size: 30px;
+	flex-direction: column;
+	padding: 0;
+	width: 30px;
+	height: 30px;
+
+	background: transparent;
+	border: none;
+	p {
+		margin: 0;
+		padding: 0;
+		line-height: 0.2;
+	}
 
 }
 
